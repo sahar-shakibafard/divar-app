@@ -1,3 +1,5 @@
+import CategoryForm from "components/templates/CategoryForm";
+
 const HomePage = () => {
   return (
     <>
