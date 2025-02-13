@@ -15,10 +15,10 @@ const CategoryForm = () => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending, error, data } = useMutation({
-    mutationFn: addCategory, 
+    mutationFn: addCategory,
     onSuccess: () => {
-      queryClient.invalidateQueries("get-categories")
-    }
+      queryClient.invalidateQueries("get-categories");
+    },
   });
 
   const changeHandler = (event) => {
@@ -30,8 +30,6 @@ const CategoryForm = () => {
 
     if (!form.name || !form.slug || !form.icon) return;
     mutate(form);
-
-    event.target.reset();
   };
 
   return (
@@ -49,7 +47,9 @@ const CategoryForm = () => {
         <input type="text" name="slug" id="slug" />
         <label htmlFor="icon">آیکون</label>
         <input type="text" name="icon" id="icon" />
-        <button type="submit" disabled={isPending}>ایجاد</button>
+        <button type="submit" disabled={isPending}>
+          ایجاد
+        </button>
       </form>
     </>
   );

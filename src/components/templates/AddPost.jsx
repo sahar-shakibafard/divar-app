@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 import { getCategory } from "services/admin";
 import { getCookie } from "utils/cookies";
@@ -11,10 +12,10 @@ const AddPost = () => {
   const [form, setForm] = useState({
     title: "",
     content: "",
-    price: null,
+    amount: null,
     city: "",
     category: "",
-    image: null,
+    images: null,
   });
 
   const { data } = useQuery({
@@ -49,15 +50,17 @@ const AddPost = () => {
     }
 
     const token = getCookie("accessToken");
-    axios.post(`${import.meta.env.VITE_API_URL}post/create`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `bearer ${token}`,
-      },
-    }).then(response => console.log(response)).catch(error => console.log(error));
+    axios
+      .post(`${import.meta.env.VITE_API_URL}post/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `bearer ${token}`,
+        },
+      })
+      .then((response) => toast.success(response.data.message))
+      .catch((error) => toast.error("مشکلی پیش آمده است"));
 
     console.log(form);
-    // event.target.reset();
   };
 
   return (
@@ -68,8 +71,8 @@ const AddPost = () => {
         <input type="text" name="title" id="title" />
         <label htmlFor="content">توضیحات</label>
         <textarea name="content" id="content" />
-        <label htmlFor="price">قیمت</label>
-        <input type="number" name="price" id="price" />
+        <label htmlFor="amount">قیمت</label>
+        <input type="number" name="amount" id="amount" />
         <label htmlFor="city">شهر</label>
         <input type="text" name="city" id="city" />
         <label htmlFor="category">دسته بندی</label>
@@ -80,8 +83,8 @@ const AddPost = () => {
             </option>
           ))}
         </select>
-        <label htmlFor="image">عکس</label>
-        <input type="file" name="image" id="image" />
+        <label htmlFor="images">عکس</label>
+        <input type="file" name="images" id="images" />
         <button onClick={addHandler}>ایجاد</button>
       </form>
     </>
